@@ -91,7 +91,7 @@ export class LocalForageCache {
       return false
     }
 
-    if (expires instanceof Number === false) {
+    if (isNaN(expires)) {
       return false
     }
 
