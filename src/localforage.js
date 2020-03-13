@@ -19,8 +19,6 @@ export class LocalForageCache {
   async setItem(key, value, expires = this.storage._config.defaultExpiration) {
     const expirationKey = this._expirationKey(key)
 
-    console.log("expiration key", expirationKey)
-
     let expiresTimestamp = expires
 
     if (expires instanceof Date) {
@@ -34,8 +32,6 @@ export class LocalForageCache {
   async getItem(key) {
     const expirationKey = this._expirationKey(key)
     const expires = await this.storage.getItem(expirationKey)
-
-    console.log("expiration result", expires)
 
     if (expires === null) {
       return this.storage.getItem(key)
