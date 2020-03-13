@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Luud Janssen",
+  "repository": "https://github.com/LuudJanssen/localforage-cache.git",
   "license": "Apache-2.0",
   "dependencies": {
     "localforage": "^1.5.0"
