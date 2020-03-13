@@ -1,5 +1,5 @@
 import localforage from "localforage"
-import Sha256 from "sha.js"
+import Sha256 from "sha.js/sha256"
 
 export class LocalForageCache {
   constructor(options) {
@@ -21,8 +21,14 @@ export class LocalForageCache {
 
     console.log("expiration key", expirationKey)
 
+    let expiresTimestamp = expires
+
+    if (expires instanceof Date) {
+      expiresTimestamp = expires.getTime()
+    }
+
     await this.storage.setItem(key, value)
-    return this.storage.setItem(expirationKey, expires)
+    return this.storage.setItem(expirationKey, expiresTimestamp)
   }
 
   async getItem(key) {
@@ -85,11 +91,11 @@ export class LocalForageCache {
       return false
     }
 
-    if (expires instanceof Date === false) {
+    if (expires instanceof Number === false) {
       return false
     }
 
-    return expires.getTime() < Date.now()
+    return expires < Date.now()
   }
 }
 
