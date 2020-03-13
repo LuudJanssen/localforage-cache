@@ -11,7 +11,8 @@
   "repository": "https://github.com/LuudJanssen/localforage-cache.git",
   "license": "Apache-2.0",
   "dependencies": {
-    "localforage": "^1.5.0"
+    "localforage": "^1.5.0",
+    "sha.js": "^2.4.11"
   },
   "devDependencies": {
     "prettier": "^1.19.1"
