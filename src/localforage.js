@@ -1,6 +1,11 @@
 import localforage from "localforage"
 import Sha256 from "sha.js/sha256"
 
+/**
+ * Wrapper around localforage that adds the ability to set expiration dates for saved values.
+ *
+ * It works by creating an additional entry that tells you when the key is due to expire.
+ */
 export class LocalForageCache {
   constructor(options) {
     this.storage = localforage.createInstance()
@@ -16,11 +21,20 @@ export class LocalForageCache {
     this.config(options)
   }
 
+  /**
+   * Save an entry in the offline storage.
+   *
+   * @param {String} key The key of the value you wish to save to the cache.
+   * @param {any} value The value you wish to save.
+   * @param {Date|Number} expires The expiry date. Either a timestamp or date object.
+   * @return {Promise<void>} A promise that resolves when the value has been saved.
+   */
   async setItem(key, value, expires = this.storage._config.defaultExpiration) {
     const expirationKey = this._expirationKey(key)
 
     let expiresTimestamp = expires
 
+    // If we get a date object, turn it into a timestamp
     if (expires instanceof Date) {
       expiresTimestamp = expires.getTime()
     }
@@ -29,16 +43,24 @@ export class LocalForageCache {
     return this.storage.setItem(expirationKey, expiresTimestamp)
   }
 
+  /**
+   * Retreive an entry from the offline storage.
+   *
+   * @param {String} key The key of the value you wish to retreive from the cache.
+   * @return {Promise<any>} A promise that resolves with the value of the key. Returns null if the key does not exist.
+   */
   async getItem(key) {
     const expirationKey = this._expirationKey(key)
     const expires = await this.storage.getItem(expirationKey)
 
+    // If we don't find an experation date, just return the value
     if (expires === null) {
       return this.storage.getItem(key)
     }
 
     const hasExpired = this._hasExpired(expires)
 
+    // If the item has expired, remove it from the cache
     if (hasExpired) {
       await this.removeItem(key)
       return null
@@ -47,6 +69,11 @@ export class LocalForageCache {
     return this.storage.getItem(key)
   }
 
+  /**
+   * Removes an entry from the offline storage while also removing its expiry entry.
+   *
+   * @param {String} key The key of the value you wish to remove from the cache.
+   */
   async removeItem(key) {
     const expirationKey = this._expirationKey(key)
     const removeValue = this.storage.removeItem(key)
@@ -55,6 +82,11 @@ export class LocalForageCache {
     return Promise.all([removeValue, removeExpiration])
   }
 
+  /**
+   * Sets the options for the cache module.
+   *
+   * @param {Object} options
+   */
   config(options) {
     if (typeof options !== "object") {
       return this.storage.config(options)
@@ -69,6 +101,11 @@ export class LocalForageCache {
     return this.storage.config(options)
   }
 
+  /**
+   * Creates a new instance of the cache module.
+   *
+   * @param {Object} options
+   */
   createInstance(options) {
     return new LocalForageCache(options)
   }
