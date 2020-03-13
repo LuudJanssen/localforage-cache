@@ -4,12 +4,16 @@
   "description": "A wrapper around localforage adding experation times and cache invalidation methods",
   "main": "src/localforage.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier src/**/*.js"
   },
   "author": "Luud Janssen",
   "repository": "https://github.com/LuudJanssen/localforage-cache.git",
   "license": "Apache-2.0",
   "dependencies": {
     "localforage": "^1.5.0"
+  },
+  "devDependencies": {
+    "prettier": "^1.19.1"
   }
 }
