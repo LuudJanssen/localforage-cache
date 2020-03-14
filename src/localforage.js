@@ -26,10 +26,14 @@ export class LocalForageCache {
    *
    * @param {String} key The key of the value you wish to save to the cache.
    * @param {any} value The value you wish to save.
-   * @param {Date|Number} expires The expiry date. Either a timestamp or date object.
+   * @param {Date|Number} expires The expiry date. Either a timestamp or date object. By default this value is the default expiration set in the config + the current time.
    * @return {Promise<void>} A promise that resolves when the value has been saved.
    */
-  async setItem(key, value, expires = this.storage._config.defaultExpiration) {
+  async setItem(
+    key,
+    value,
+    expires = this.storage._config.defaultExpiration + Date.now()
+  ) {
     const expirationKey = this._expirationKey(key)
 
     let expiresTimestamp = expires
