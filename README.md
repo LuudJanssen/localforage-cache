@@ -4,15 +4,17 @@ A wrapper around [localforage](https://github.com/localForage/localForage) addin
 
 ## Usage
 
-First import the module:
+First install the module:
+
+```bash
+npm install @luudjanssen/localforage-cache
+```
+
+Then, import the module and create a new cache instance:
 
 ```javascript
 import cache from "@luudjanssen/localforage-cache"
-```
 
-Then, create a new cache instance:
-
-```javascript
 const productCache = cache.createInstance({
   name: "products-cache",
   defaultExpiration: 1000
@@ -40,17 +42,13 @@ setTimeout(() => {
 
 ## How does it work?
 
-The module works by saving an additional entry in the local storage for each item you save which states its expiration date.
-
-For example, the output in the storage driver of the first line of the example code in the database would be:
+The module works by saving an additional entry in the local storage for each item you save which states its expiration date. For example, the output in the storage driver of the first line of the example code in the database would be:
 
 | Key                        | Value                            |
 | -------------------------- | -------------------------------- |
 | product-1                  | { stock: 4 , name: "Product 1" } |
 | product-1_expires_a05fa06b | 1584277478393                    |
 
-The timestamp in the `product-1_expires_a05fa06b` entry is 1000 (the `defaultExpiration`) + the timestamp of the moment it was saved.
-
-If an item is retreived from the cache which is expired, both rows will be deleted and `null` will be returned.
+The timestamp in the `product-1_expires_a05fa06b` entry is 1000 (the `defaultExpiration`) + the timestamp of the moment it was saved. If an item is retreived from the cache which is expired, both rows will be deleted and `null` will be returned.
 
 If you want more in depth knowledge of how the module works, take a look at the [source](src/localforage.js).
