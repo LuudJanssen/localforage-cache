@@ -1,6 +1,6 @@
 {
   "name": "@luudjanssen/localforage-cache",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A wrapper around localforage adding experation times and cache invalidation methods",
   "keywords": [
     "localforage",
