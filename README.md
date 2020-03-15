@@ -49,7 +49,7 @@ For example, the output in the storage driver of the first line of the example c
 | product-1                  | { stock: 4 , name: "Product 1" } |
 | product-1_expires_a05fa06b | 1584277478393                    |
 
-The timestamp in the `product-1_expires_a05fa06b` is 1000 (the `defaultExpiration`) + the timestamp of the moment it was saved.
+The timestamp in the `product-1_expires_a05fa06b` entry is 1000 (the `defaultExpiration`) + the timestamp of the moment it was saved.
 
 If an item is retreived from the cache which is expired, both rows will be deleted and `null` will be returned.
 
